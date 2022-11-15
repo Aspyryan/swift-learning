@@ -21,11 +21,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             cards[chosenIndex].hasBeenFlippedAt = Date()
             if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
                 if (cards[chosenIndex].content == cards[potentialMatchIndex].content) {
-                    cards[chosenIndex].flippedUpTime += cards[chosenIndex].hasBeenFlippedAt!.distance(to: Date())
-                    cards[chosenIndex].hasBeenFlippedAt = nil
-                    
-                    cards[potentialMatchIndex].flippedUpTime += cards[potentialMatchIndex].hasBeenFlippedAt!.distance(to: Date())
-                    cards[potentialMatchIndex].hasBeenFlippedAt = nil
+                    cards[chosenIndex].makeMatched()
+                    cards[potentialMatchIndex].makeMatched()
                     
                     score += max(10 - cards[chosenIndex].flippedUpSeconds, 1) +
                              max(10 - cards[potentialMatchIndex].flippedUpSeconds, 1)
@@ -40,12 +37,8 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             } else {
                 for index in cards.indices {
                     if cards[index].isFaceUp {
-                        if let flippedUpDate = cards[index].hasBeenFlippedAt {
-                            cards[index].flippedUpTime += flippedUpDate.distance(to: Date())
-                        }
-                        cards[index].hasBeenFlippedAt = nil
+                        cards[index].flipDown()
                         cards[index].hasBeenFlipped = true
-                        cards[index].isFaceUp = false
                     }
                 }
                 indexOfTheOneAndOnlyFaceUpCard = chosenIndex
@@ -75,6 +68,21 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         var id: Int
         var flippedUpSeconds: Int {
             return Int(self.flippedUpTime)
+        }
+        mutating func makeMatched() {
+            addFlippedTime()
+            isMatched = true
+        }
+        mutating func flipDown() {
+            addFlippedTime()
+            isFaceUp = false
+        }
+        
+        mutating private func addFlippedTime() {
+            if let flippedUpDate = hasBeenFlippedAt {
+                flippedUpTime += flippedUpDate.distance(to: Date())
+            }
+            hasBeenFlippedAt = nil
         }
     }
 }
