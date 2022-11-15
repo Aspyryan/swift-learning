@@ -18,9 +18,17 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
            !cards[chosenIndex].isFaceUp,
            !cards[chosenIndex].isMatched
         {
+            cards[chosenIndex].hasBeenFlippedAt = Date()
             if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
                 if (cards[chosenIndex].content == cards[potentialMatchIndex].content) {
-                    score += 2
+                    cards[chosenIndex].flippedUpTime += cards[chosenIndex].hasBeenFlippedAt!.distance(to: Date())
+                    cards[chosenIndex].hasBeenFlippedAt = nil
+                    
+                    cards[potentialMatchIndex].flippedUpTime += cards[potentialMatchIndex].hasBeenFlippedAt!.distance(to: Date())
+                    cards[potentialMatchIndex].hasBeenFlippedAt = nil
+                    
+                    score += max(10 - cards[chosenIndex].flippedUpSeconds, 1) +
+                             max(10 - cards[potentialMatchIndex].flippedUpSeconds, 1)
                     cards[chosenIndex].isMatched = true
                     cards[potentialMatchIndex].isMatched = true
                 } else {
@@ -32,13 +40,17 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             } else {
                 for index in cards.indices {
                     if cards[index].isFaceUp {
+                        if let flippedUpDate = cards[index].hasBeenFlippedAt {
+                            cards[index].flippedUpTime += flippedUpDate.distance(to: Date())
+                        }
+                        cards[index].hasBeenFlippedAt = nil
                         cards[index].hasBeenFlipped = true
                         cards[index].isFaceUp = false
                     }
                 }
                 indexOfTheOneAndOnlyFaceUpCard = chosenIndex
             }
-            cards[chosenIndex].isFaceUp.toggle()
+            cards[chosenIndex].isFaceUp = true
         }
         print("\(cards)")
     }
@@ -57,7 +69,12 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         var isFaceUp: Bool = false
         var isMatched: Bool = false
         var hasBeenFlipped: Bool = false
+        var hasBeenFlippedAt: Date? = nil
+        var flippedUpTime: TimeInterval = 0
         var content: CardContent
         var id: Int
+        var flippedUpSeconds: Int {
+            return Int(self.flippedUpTime)
+        }
     }
 }
