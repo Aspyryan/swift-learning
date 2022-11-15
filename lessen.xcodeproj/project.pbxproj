@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4912C0692923C80900D4DC58 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4912C0682923C80900D4DC58 /* Theme.swift */; };
 		4972DEBB291D5500008906BB /* MemoryGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4972DEBA291D5500008906BB /* MemoryGame.swift */; };
 		4972DEBD291D55D8008906BB /* EmojiMemoryGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4972DEBC291D55D8008906BB /* EmojiMemoryGame.swift */; };
 		49A6CD37291AC85C0096A294 /* lessenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49A6CD36291AC85C0096A294 /* lessenApp.swift */; };
@@ -17,7 +16,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4912C0682923C80900D4DC58 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		4972DEBA291D5500008906BB /* MemoryGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGame.swift; sourceTree = "<group>"; usesTabs = 0; };
 		4972DEBC291D55D8008906BB /* EmojiMemoryGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiMemoryGame.swift; sourceTree = "<group>"; };
 		49A6CD33291AC85C0096A294 /* lessen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = lessen.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,7 +61,6 @@
 				4972DEBC291D55D8008906BB /* EmojiMemoryGame.swift */,
 				49A6CD3A291AC85D0096A294 /* Assets.xcassets */,
 				49A6CD3C291AC85D0096A294 /* Preview Content */,
-				4912C0682923C80900D4DC58 /* Theme.swift */,
 			);
 			path = lessen;
 			sourceTree = "<group>";
@@ -148,7 +145,6 @@
 			files = (
 				4972DEBB291D5500008906BB /* MemoryGame.swift in Sources */,
 				49A6CD39291AC85C0096A294 /* ContentView.swift in Sources */,
-				4912C0692923C80900D4DC58 /* Theme.swift in Sources */,
 				49A6CD37291AC85C0096A294 /* lessenApp.swift in Sources */,
 				4972DEBD291D55D8008906BB /* EmojiMemoryGame.swift in Sources */,
 			);

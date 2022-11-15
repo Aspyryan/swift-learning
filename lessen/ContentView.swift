@@ -12,16 +12,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Text(viewModel.themeName)
-                Spacer()
-                Text("Score: \(viewModel.score)")
-            }
-            .font(.title)
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
                     ForEach(viewModel.cards) { card in
-                        CardView(card: card, gradient: viewModel.themeColor)
+                        CardView(card: card)
                             .aspectRatio(2/3, contentMode: .fit)
                             .onTapGesture {
                                 viewModel.choose(card)
@@ -29,32 +23,26 @@ struct ContentView: View {
                     }
                 }
             }
-            
-            Button {
-                viewModel.newGame()
-            } label: {
-                Text("New Game")
-            }
         }
+        .foregroundColor(.red)
         .padding(.horizontal)
     }
 }
 
 struct CardView: View {
     let card: MemoryGame<String>.Card
-    let gradient: Gradient
     
     var body: some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: 20)
             if card.isFaceUp {
                 shape.fill().foregroundColor(.white)
-                shape.strokeBorder(gradient, lineWidth: 3)
+                shape.strokeBorder(lineWidth: 3)
                 Text(card.content).font(.largeTitle)
             } else if card.isMatched {
                 shape.opacity(0)
             } else {
-                shape.fill(gradient)
+                shape.fill()
             }
         }
     }
