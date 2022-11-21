@@ -65,7 +65,7 @@ struct CardView: View {
                         Spacer(minLength: 0)
                         ForEach(0..<card.shapeAmount, id: \.self) { index in
                             switch(card.shape) {
-                            case .diamond: diamond()
+                            case .diamond: diamond
                             case .oval: oval(size: geometry.size)
                             case .tilda: tilda(size: geometry.size)
                             }
@@ -79,7 +79,7 @@ struct CardView: View {
         .foregroundColor(GetColor())
     }
     
-    func diamond() -> some View {
+    var diamond: some View {
         ZStack {
             Diamond(filling: SetFilling.empty).opacity(GetOpacity())
             Diamond(filling: SetFilling.empty).stroke(GetColor(), lineWidth: 3)

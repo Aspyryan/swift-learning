@@ -22,13 +22,13 @@ struct SetGame {
     }
     
     init() {
-        var index = 0
+        var id = 0
         for shape in SetShape.allCases {
             for color in SetColors.allCases {
                 for filling in SetFilling.allCases {
                     for shapeAmount in 1..<4 {
-                        deck.append(Card(shape: shape, shapeAmount: shapeAmount, color: color, filling: filling, id: index))
-                        index += 1
+                        deck.append(Card(shape: shape, shapeAmount: shapeAmount, color: color, filling: filling, id: id))
+                        id += 1
                     }
                 }
             }
@@ -58,10 +58,10 @@ struct SetGame {
                 })
                 
                 if (
-                    colorSet.hasOneOr(max: 3) &&
-                    shapeSet.hasOneOr(max: 3) &&
-                    amountSet.hasOneOr(max: 3) &&
-                    fillingSet.hasOneOr(max: 3)
+                    colorSet.hasOneOr(3) &&
+                    shapeSet.hasOneOr(3) &&
+                    amountSet.hasOneOr(3) &&
+                    fillingSet.hasOneOr(3)
                 ) {
                     // Correctly matched!
                     indexesOfSelectedCards.forEach({ cards[$0].isCorrectelyMatched = true })
@@ -88,7 +88,7 @@ struct SetGame {
     mutating func drawCards() {
         if previousCorrect {
             previousCorrect = false
-            indexesOfSelectedCards = []            
+            indexesOfSelectedCards = []
         }
         draw(cards: 3)
     }
@@ -130,7 +130,7 @@ public enum SetFilling: CaseIterable {
 }
 
 extension Set {
-    func hasOneOr(max: Int) -> Bool {
-        self.count == 1 || self.count == max
+    func hasOneOr(_ amount: Int) -> Bool {
+        self.count == 1 || self.count == amount
     }
 }
