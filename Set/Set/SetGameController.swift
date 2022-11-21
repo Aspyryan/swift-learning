@@ -17,9 +17,18 @@ class SetGameController: ObservableObject {
     var cards: Array<SetGame.Card> {
         return model.cards
     }
+    var showDraw: Bool {
+        return !model.emptyDeck
+    }
     
     // MARK - intents
     func choose(_ card: Card) {
         model.choose(card)
+    }
+    func drawCards() {
+        model.drawCards()
+    }
+    func newGame() {
+        model = SetGameController.createSetGame()
     }
 }

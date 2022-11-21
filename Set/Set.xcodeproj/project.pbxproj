@@ -14,6 +14,7 @@
 		49B33A9F29242CD50020F9BB /* SetGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B33A9E29242CD50020F9BB /* SetGame.swift */; };
 		49B33AA129242E1C0020F9BB /* SetGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B33AA029242E1C0020F9BB /* SetGameController.swift */; };
 		49B33AA3292440E20020F9BB /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49B33AA2292440E20020F9BB /* AspectVGrid.swift */; };
+		49C29D77292BB8D700AC4A82 /* Diamond.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49C29D76292BB8D700AC4A82 /* Diamond.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		49B33A9E29242CD50020F9BB /* SetGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGame.swift; sourceTree = "<group>"; };
 		49B33AA029242E1C0020F9BB /* SetGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetGameController.swift; sourceTree = "<group>"; };
 		49B33AA2292440E20020F9BB /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
+		49C29D76292BB8D700AC4A82 /* Diamond.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Diamond.swift; path = Shapes/Diamond.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +61,7 @@
 			children = (
 				49B33A9029242C3F0020F9BB /* SetApp.swift */,
 				49B33A9229242C3F0020F9BB /* ContentView.swift */,
+				49C29D76292BB8D700AC4A82 /* Diamond.swift */,
 				49B33AA029242E1C0020F9BB /* SetGameController.swift */,
 				49B33A9E29242CD50020F9BB /* SetGame.swift */,
 				49B33AA2292440E20020F9BB /* AspectVGrid.swift */,
@@ -146,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				49C29D77292BB8D700AC4A82 /* Diamond.swift in Sources */,
 				49B33AA129242E1C0020F9BB /* SetGameController.swift in Sources */,
 				49B33A9329242C3F0020F9BB /* ContentView.swift in Sources */,
 				49B33A9F29242CD50020F9BB /* SetGame.swift in Sources */,

@@ -8,7 +8,11 @@
 import Foundation
 
 struct SetGame {
+    private var deck: [Card] = []
     private(set) var cards: [Card] = []
+    private var previousCorrect: Bool = false
+    public var emptyDeck: Bool { deck.count == 0 }
+    
     var indexesOfSelectedCards: [Int] {
         get { cards.indices.filter({ cards[$0].isSelected}) }
         set {
@@ -21,20 +25,24 @@ struct SetGame {
         var index = 0
         for shape in SetShape.allCases {
             for color in SetColors.allCases {
-                for shapeAmount in 1..<4 {
-                    cards.append(Card(shape: shape, shapeAmount: shapeAmount, color: color, filling: SetFilling.empty, id: index))
-                    index += 1
+                for filling in SetFilling.allCases {
+                    for shapeAmount in 1..<4 {
+                        deck.append(Card(shape: shape, shapeAmount: shapeAmount, color: color, filling: filling, id: index))
+                        index += 1
+                    }
                 }
             }
         }
-        print(cards)
+        deck.shuffle()
+        draw(cards: 12)
     }
     
     mutating func choose(_ card: Card) {
         if let chosenIndex = cards.firstIndex(where: { $0.id == card.id}),
-           cards[chosenIndex].isCorrectelyMatched != true
+           cards[chosenIndex].isCorrectelyMatched == nil
         {
             cards[chosenIndex].isSelected.toggle()
+            
             if indexesOfSelectedCards.count == 3 {
                 // Look if matches
                 var colorSet: Set<SetColors> = Set()
@@ -57,9 +65,11 @@ struct SetGame {
                 ) {
                     // Correctly matched!
                     indexesOfSelectedCards.forEach({ cards[$0].isCorrectelyMatched = true })
+                    previousCorrect = true
                 } else {
                     // Bad match!
                     indexesOfSelectedCards.forEach({ cards[$0].isCorrectelyMatched = false })
+                    previousCorrect = false
                 }
             } else if indexesOfSelectedCards.count == 4 {
                 indexesOfSelectedCards.forEach({
@@ -68,7 +78,25 @@ struct SetGame {
                     }
                 })
                 indexesOfSelectedCards = [chosenIndex]
+                if previousCorrect {
+                    draw(cards: 3)
+                }
             }
+        }
+    }
+    
+    mutating func drawCards() {
+        if previousCorrect {
+            previousCorrect = false
+            indexesOfSelectedCards = []            
+        }
+        draw(cards: 3)
+    }
+    
+    mutating private func draw(cards amount: Int) {
+        let max = deck.count >= amount ? amount : deck.count
+        for _ in 0..<max {
+            cards.append(deck.removeFirst())
         }
     }
     
@@ -83,19 +111,19 @@ struct SetGame {
     }
 }
 
-enum SetShape: CaseIterable {
+public enum SetShape: CaseIterable {
     case oval
     case tilda
     case diamond
 }
 
-enum SetColors: CaseIterable {
+public enum SetColors: CaseIterable {
     case green
     case blue
     case red
 }
 
-enum SetFilling: CaseIterable {
+public enum SetFilling: CaseIterable {
     case empty
     case striped
     case filled
