@@ -8,8 +8,10 @@
 import Foundation
 
 struct SetGame {
-    private var deck: [Card] = []
+    private(set) var deck: [Card] = []
     private(set) var cards: [Card] = []
+    private(set) var discardPile: [Card] = []
+    
     private var previousCorrect: Bool = false
     public var emptyDeck: Bool { deck.count == 0 }
     
@@ -22,13 +24,11 @@ struct SetGame {
     }
     
     init() {
-        var id = 0
         for shape in SetShape.allCases {
             for color in SetColors.allCases {
                 for filling in SetFilling.allCases {
                     for shapeAmount in 1..<4 {
-                        deck.append(Card(shape: shape, shapeAmount: shapeAmount, color: color, filling: filling, id: id))
-                        id += 1
+                        deck.append(Card(shape: shape, shapeAmount: shapeAmount, color: color, filling: filling, id: UUID()))
                     }
                 }
             }
@@ -78,9 +78,6 @@ struct SetGame {
                     }
                 })
                 indexesOfSelectedCards = [chosenIndex]
-                if previousCorrect {
-                    draw(cards: 3)
-                }
             }
         }
     }
@@ -105,9 +102,9 @@ struct SetGame {
         var shapeAmount: Int
         var color: SetColors
         var filling: SetFilling
-        var isSelected = false
+        var isSelected: Bool = false
         var isCorrectelyMatched: Bool? = nil
-        var id: Int
+        var id: UUID
     }
 }
 

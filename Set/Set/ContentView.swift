@@ -31,13 +31,43 @@ struct ContentView: View {
                 }
             }
             .foregroundColor(.red)
-            if game.showDraw {
-                Button {
-                    game.drawCards()
-                } label: {
-                    Text("Draw 3 cards")
+            HStack {
+                deck
+                discardPile
+                
+                if game.showDraw {
+                    Button {
+                        game.drawCards()
+                    } label: {
+                        Text("Draw 3 cards")
+                    }
                 }
             }
+        }
+    }
+    
+    var deck: some View {
+        VStack(alignment: .leading) {
+            Text("deck")
+            Button {
+                game.drawCards()
+            } label: {Text("draw")}
+            .cardify(isSelected: false, isCorrectelyMatched: false)
+            .aspectRatio(2/3, contentMode: .fit)
+        }
+    }
+    
+    var discardPile: some View {
+        VStack(alignment: .leading) {
+            Text("discard pile")
+            ZStack {
+                ForEach(game.discardPile) { card in
+                    CardView(card: card)
+                        .padding(4)
+                }
+            }
+            .cardify(isSelected: false, isCorrectelyMatched: false)
+            .aspectRatio(2/3, contentMode: .fit)
         }
     }
 }
@@ -47,18 +77,6 @@ struct CardView: View {
     
     var body: some View {
         ZStack {
-            let shape = RoundedRectangle(cornerRadius: 20)
-            shape.fill(.white)
-            if card.isSelected {
-                if let potentialMatch = card.isCorrectelyMatched {
-                    if potentialMatch == true {
-                        shape.fill(.green).opacity(0.4)
-                    } else {
-                        shape.fill(.red).opacity(0.4)
-                    }
-                }
-                shape.strokeBorder(lineWidth: 3).foregroundColor(.yellow)
-            }
             VStack {
                 GeometryReader { geometry in
                     VStack {
@@ -77,6 +95,7 @@ struct CardView: View {
             .padding(.all)
         }
         .foregroundColor(GetColor())
+        .cardify(isSelected: card.isSelected, isCorrectelyMatched: card.isCorrectelyMatched)
     }
     
     var diamond: some View {

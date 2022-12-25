@@ -17,6 +17,12 @@ class SetGameController: ObservableObject {
     var cards: Array<SetGame.Card> {
         return model.cards
     }
+    var deck: Array<SetGame.Card> {
+        return model.deck
+    }
+    var discardPile: Array<SetGame.Card> {
+        return model.discardPile
+    }
     var showDraw: Bool {
         return !model.emptyDeck
     }
