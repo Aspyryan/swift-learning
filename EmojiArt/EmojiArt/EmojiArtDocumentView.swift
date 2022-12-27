@@ -10,9 +10,11 @@ import SwiftUI
 struct EmojiArtDocumentView: View {
     @ObservedObject var document: EmojiArtDocument
     
+    @Environment(\.undoManager) var undoManager
+    
     @State var SelectedEmojis: Set<EmojiArtModel.Emoji.ID> = Set()
     
-    let defaultEmojiFontSize: CGFloat = 40
+    @ScaledMetric var defaultEmojiFontSize: CGFloat = 40
     
     var body: some View {
         VStack(spacing: 0) {
@@ -59,10 +61,20 @@ struct EmojiArtDocumentView: View {
                 }
             }
             .onReceive(document.$backgroundImage) { image in
-                zoomToFit(image, in: geometry.size)
+                if autozoom {
+                    zoomToFit(image, in: geometry.size)
+                }
+            }
+            .toolbar {
+                UndoButton(
+                    undo: undoManager?.optionalUndoMenuItemTitle,
+                    redo: undoManager?.optionalRedoMenuItemTitle
+                )
             }
         }
     }
+    
+    @State private var autozoom = false
     
     @State private var alertToShow: IdentifiableAlert?
     
@@ -78,13 +90,14 @@ struct EmojiArtDocumentView: View {
     
     private func drop(_ providers: [NSItemProvider], at location: CGPoint, in geometry: GeometryProxy) -> Bool {
         var found = providers.loadObjects(ofType: URL.self) { url in
-            document.setBackground(.url(url.imageURL))
+            autozoom = true
+            document.setBackground(.url(url.imageURL), undoManager: undoManager)
         }
         
         if !found {
             found = providers.loadObjects(ofType: UIImage.self) { image in
                 if let data = image.jpegData(compressionQuality: 1.0) {
-                    document.setBackground(.imageData(data))
+                    document.setBackground(.imageData(data), undoManager: undoManager)
                 }
             }
         }
@@ -95,7 +108,8 @@ struct EmojiArtDocumentView: View {
                     document.addEmoji(
                         String(emoji),
                         at: convertToEmojiCoordinates(location, in: geometry),
-                        size: defaultEmojiFontSize / zoomScale
+                        size: defaultEmojiFontSize / zoomScale,
+                        undoManager: undoManager
                     )
                 }
             }
@@ -152,7 +166,8 @@ struct EmojiArtDocumentView: View {
             }
     }
     
-    @State private var steadyPanOffset: CGSize = CGSize.zero
+    @SceneStorage("EmojiArtDocument.steadyPanOffset")
+    private var steadyPanOffset: CGSize = CGSize.zero
     @GestureState private var gesturePanOffset: CGSize = CGSize.zero
     
     private var panOffset: CGSize {
@@ -184,7 +199,7 @@ struct EmojiArtDocumentView: View {
             .onEnded { finalEmojiDragGestureValue in
                 for emoji in document.emojis {
                     if (SelectedEmojis.contains(emoji.id)) {
-                        document.moveEmoji(emoji, by: finalEmojiDragGestureValue.translation / zoomScale)
+                        document.moveEmoji(emoji, by: finalEmojiDragGestureValue.translation / zoomScale, undoManager: undoManager)
                     }
                 }
                 steadyEmojiPanOffset = CGSize.zero
@@ -192,7 +207,8 @@ struct EmojiArtDocumentView: View {
     }
     
     
-    @State private var steadyZoomScale: CGFloat = 1
+    @SceneStorage("EmojiArtDocument.steadyZoomScale")
+    private var steadyZoomScale: CGFloat = 1
     @GestureState private var gestureZoomScale: CGFloat = 1
     
     private var zoomScale: CGFloat {
@@ -224,7 +240,7 @@ struct EmojiArtDocumentView: View {
             .onEnded { gestureScaleAtEnd in
                 for emoji in document.emojis {
                     if (SelectedEmojis.contains(emoji.id)) {
-                        document.scaleEmoji(emoji, by: gestureScaleAtEnd)
+                        document.scaleEmoji(emoji, by: gestureScaleAtEnd, undoManager: undoManager)
                     }
                 }
                 steadyEmojiScale = 1
@@ -273,7 +289,7 @@ struct EmojiArtDocumentView: View {
                      Text("Yes"),
                      action: {
                          if (SelectedEmojis.contains(emojiToDelete.id)) { SelectedEmojis.remove(emojiToDelete.id) }
-                         document.removeEmoji(emojiToDelete)
+                         document.removeEmoji(emojiToDelete, undoManager: undoManager)
                      }
                  ),
                  secondaryButton: .cancel(

@@ -66,7 +66,7 @@ struct PaletteEditor: View {
 }
 
 struct PaletteEditor_Previews: PreviewProvider {
-    static var emojiFontSize: CGFloat = 40
+    @ScaledMetric static var emojiFontSize: CGFloat = 40
     static var emojiFont: Font { .system(size: emojiFontSize) }
     static var previews: some View {
         PaletteEditor(palette: .constant(PaletteStore(named: "Preview").palette(at: 4)), emojiFont: emojiFont)

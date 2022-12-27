@@ -39,6 +39,7 @@
 		A4B833F22958CE6500B6C6FE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A4B833F92958CE8100B6C6FE /* UtilityViews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityViews.swift; sourceTree = "<group>"; };
 		A4B833FA2958CE8100B6C6FE /* UtilityExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilityExtensions.swift; sourceTree = "<group>"; };
+		A4CD8077295B8D5D0077FB1E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +72,7 @@
 		A4B833EA2958CE6300B6C6FE /* EmojiArt */ = {
 			isa = PBXGroup;
 			children = (
+				A4CD8077295B8D5D0077FB1E /* Info.plist */,
 				A4248E7C295A3E2500388A12 /* PaletteEditor.swift */,
 				A463B275295A45D8000F102F /* PaletteManager.swift */,
 				A4248E78295A0F2E00388A12 /* PalletStore.swift */,
@@ -309,6 +311,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"EmojiArt/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EmojiArt/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -337,6 +340,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"EmojiArt/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EmojiArt/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

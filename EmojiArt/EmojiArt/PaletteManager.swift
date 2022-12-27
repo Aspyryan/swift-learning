@@ -13,7 +13,7 @@ struct PaletteManager: View {
     
     @State private var editMode: EditMode = .inactive
     
-    var emojiFontSize: CGFloat = 40
+    @ScaledMetric var emojiFontSize: CGFloat = 40
     var emojiFont: Font { .system(size: emojiFontSize) }
     
     var body: some View {
