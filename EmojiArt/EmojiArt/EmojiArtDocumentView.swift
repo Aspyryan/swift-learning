@@ -17,7 +17,7 @@ struct EmojiArtDocumentView: View {
     var body: some View {
         VStack(spacing: 0) {
             documentBody
-            palette
+            PaletteChooser(emojiFontSize: defaultEmojiFontSize)
         }
     }
     
@@ -48,9 +48,28 @@ struct EmojiArtDocumentView: View {
                 return drop(providers, at: location, in: geometry)
             }
             .gesture(panGesture().simultaneously(with: SelectedEmojis.isEmpty ? zoomGesture() : nil).simultaneously(with: SelectedEmojis.isEmpty ? nil : zoomEmojisGesture()))
-            .alert("Delete " + (deleteEmoji?.text ?? "") + "?", isPresented: $showDeleteEmojiAlert, presenting: deleteEmoji) { emojiToDelete in
-                deleteEmojiOnDemand(for: emojiToDelete)
+            .alert(item: $alertToShow) { alertToShow in
+                alertToShow.alert()
             }
+            .onChange(of: document.backgroundImageFetchStatus) { status in
+                switch status {
+                case .failed(let url):
+                    showBackgroundImageFetchFailedAlert(url)
+                default: break
+                }
+            }
+        }
+    }
+    
+    @State private var alertToShow: IdentifiableAlert?
+    
+    private func showBackgroundImageFetchFailedAlert(_ url: URL) {
+        alertToShow = IdentifiableAlert(id: UUID()) {
+            Alert(
+                title: Text("Background Image Fetch"),
+                message: Text("Couldn't load image from \(url)."),
+                dismissButton: Alert.Button.cancel(Text("OK"))
+            )
         }
     }
     
@@ -234,48 +253,30 @@ struct EmojiArtDocumentView: View {
         }
     }
     
-    @State private var showDeleteEmojiAlert = false
-    @State private var deleteEmoji: EmojiArtModel.Emoji?
-    
     private func longPressDeleteGesture(on emoji: EmojiArtModel.Emoji) -> some Gesture {
         LongPressGesture(minimumDuration: 1)
             .onEnded { longPressStateAtEnd in
                 if longPressStateAtEnd {
-                    deleteEmoji = emoji
-                    showDeleteEmojiAlert.toggle()
-                } else {
-                    deleteEmoji = nil
+                    showDeleteEmojiButton(for: emoji)
                 }
             }
     }
     
-    private func deleteEmojiOnDemand(for emojiToDelete: EmojiArtModel.Emoji) -> some View {
-        Button(role: .destructive) {
-            if (SelectedEmojis.contains(emojiToDelete.id)) { SelectedEmojis.remove(emojiToDelete.id) }
-            document.removeEmoji(emojiToDelete)
-        } label: { Text("Yes") }
-    }
-    
-    var palette: some View {
-        ScrollingEmojisView(emojis: testEmojis)
-            .font(.system(size: defaultEmojiFontSize))
-    }
-    
-    let testEmojis = "😀😷🦠💉👻👀🐶🌲🌎🌞🔥🍎⚽️🚗🚓🚲🛩🚁🚀🛸🏠⌚️🎁🗝🔐❤️⛔️❌❓✅⚠️🎶➕➖🏳️"
-}
-
-struct ScrollingEmojisView: View {
-    let emojis: String
-    
-    var body: some View {
-        
-        ScrollView(.horizontal) {
-            HStack {
-                ForEach(emojis.map( { String($0)} ), id: \.self) { emoji in
-                    Text(emoji)
-                        .onDrag { NSItemProvider(object: emoji as NSString) }
-                }
-            }
+    private func showDeleteEmojiButton(for emojiToDelete: EmojiArtModel.Emoji) {
+        alertToShow = IdentifiableAlert(id: UUID()) {
+            Alert(
+                 title: Text("Delete \(emojiToDelete.text)"),
+                 primaryButton: .destructive(
+                     Text("Yes"),
+                     action: {
+                         if (SelectedEmojis.contains(emojiToDelete.id)) { SelectedEmojis.remove(emojiToDelete.id) }
+                         document.removeEmoji(emojiToDelete)
+                     }
+                 ),
+                 secondaryButton: .cancel(
+                     Text("Cancel")
+                 )
+             )
         }
     }
 }

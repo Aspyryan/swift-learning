@@ -9,10 +9,12 @@ import SwiftUI
 
 @main
 struct lessenApp: App {
-    private let game = EmojiMemoryGame()
+    @StateObject var themeStore: ThemeStore = ThemeStore(named: "App")
+    
     var body: some Scene {
         WindowGroup {
-            EmojiMemoryGameView(game: game)
+            ThemeManager()
+                .environmentObject(themeStore)
         }
     }
 }

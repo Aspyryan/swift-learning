@@ -60,6 +60,6 @@ struct AnimatedActionButton: View {
 // of course, the string identifier has to be unique for all your different kinds of alerts
 
 struct IdentifiableAlert: Identifiable {
-    var id: String
+    var id: UUID
     var alert: () -> Alert
 }
