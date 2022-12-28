@@ -16,6 +16,8 @@
 		A4248E7B295A379300388A12 /* PaletteChooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4248E7A295A379300388A12 /* PaletteChooser.swift */; };
 		A4248E7D295A3E2500388A12 /* PaletteEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4248E7C295A3E2500388A12 /* PaletteEditor.swift */; };
 		A463B276295A45D8000F102F /* PaletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A463B275295A45D8000F102F /* PaletteManager.swift */; };
+		A4878943295C478200FFFA25 /* Camera.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4878942295C478200FFFA25 /* Camera.swift */; };
+		A4878945295C4BCE00FFFA25 /* PhotoLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4878944295C4BCE00FFFA25 /* PhotoLibrary.swift */; };
 		A4B833EC2958CE6300B6C6FE /* EmojiArtApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B833EB2958CE6300B6C6FE /* EmojiArtApp.swift */; };
 		A4B833F02958CE6500B6C6FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4B833EF2958CE6500B6C6FE /* Assets.xcassets */; };
 		A4B833F32958CE6500B6C6FE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A4B833F22958CE6500B6C6FE /* Preview Assets.xcassets */; };
@@ -33,6 +35,8 @@
 		A4248E7A295A379300388A12 /* PaletteChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteChooser.swift; sourceTree = "<group>"; };
 		A4248E7C295A3E2500388A12 /* PaletteEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteEditor.swift; sourceTree = "<group>"; };
 		A463B275295A45D8000F102F /* PaletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteManager.swift; sourceTree = "<group>"; };
+		A4878942295C478200FFFA25 /* Camera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Camera.swift; sourceTree = "<group>"; };
+		A4878944295C4BCE00FFFA25 /* PhotoLibrary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibrary.swift; sourceTree = "<group>"; };
 		A4B833E82958CE6300B6C6FE /* EmojiArt.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmojiArt.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4B833EB2958CE6300B6C6FE /* EmojiArtApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtApp.swift; sourceTree = "<group>"; };
 		A4B833EF2958CE6500B6C6FE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -72,6 +76,8 @@
 		A4B833EA2958CE6300B6C6FE /* EmojiArt */ = {
 			isa = PBXGroup;
 			children = (
+				A4878944295C4BCE00FFFA25 /* PhotoLibrary.swift */,
+				A4878942295C478200FFFA25 /* Camera.swift */,
 				A4CD8077295B8D5D0077FB1E /* Info.plist */,
 				A4248E7C295A3E2500388A12 /* PaletteEditor.swift */,
 				A463B275295A45D8000F102F /* PaletteManager.swift */,
@@ -173,12 +179,14 @@
 				A4248E732959B53B00388A12 /* EmojiArtModel.Background.swift in Sources */,
 				A4B833EC2958CE6300B6C6FE /* EmojiArtApp.swift in Sources */,
 				A4248E79295A0F2E00388A12 /* PalletStore.swift in Sources */,
+				A4878945295C4BCE00FFFA25 /* PhotoLibrary.swift in Sources */,
 				A4248E772959E7F300388A12 /* SelectionEffect.swift in Sources */,
 				A463B276295A45D8000F102F /* PaletteManager.swift in Sources */,
 				A4248E6F2959B50F00388A12 /* EmojiArtModel.swift in Sources */,
 				A4248E7D295A3E2500388A12 /* PaletteEditor.swift in Sources */,
 				A4248E752959B54100388A12 /* EmojiArtDocument.swift in Sources */,
 				A4B833FC2958CE8100B6C6FE /* UtilityExtensions.swift in Sources */,
+				A4878943295C478200FFFA25 /* Camera.swift in Sources */,
 				A4B833FB2958CE8100B6C6FE /* UtilityViews.swift in Sources */,
 				A4248E7B295A379300388A12 /* PaletteChooser.swift in Sources */,
 			);

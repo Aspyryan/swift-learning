@@ -62,6 +62,25 @@ struct AnimatedActionButton: View {
 struct IdentifiableAlert: Identifiable {
     var id: UUID
     var alert: () -> Alert
+    
+    init(id: UUID, alert: @escaping () -> Alert) {
+        self.id = id
+        self.alert = alert
+    }
+    
+    init(alert: @escaping () -> Alert) {
+        self.id = UUID()
+        self.alert = alert
+    }
+    
+    init(title: String, message: String = "") {
+        self.id = UUID()
+        self.alert = { Alert(
+            title: Text(title),
+            message: Text(message),
+            dismissButton: .default(Text("OK"))
+        ) }
+    }
 }
 
 
@@ -118,5 +137,66 @@ extension UndoManager {
     }
     var optionalRedoMenuItemTitle: String? {
         canRedo ? redoMenuItemTitle : nil
+    }
+}
+
+extension View {
+    @ViewBuilder
+    func wrappedInNavigationWithToMakeDismissable(_ dismiss: (() -> Void)?) -> some View {
+        if UIDevice.current.userInterfaceIdiom != .pad, let dismiss = dismiss {
+            NavigationView {
+                self
+                    .navigationBarTitleDisplayMode(.inline)
+                    .dismissable(dismiss)
+            }
+            .navigationViewStyle(.stack)
+        } else {
+            self
+        }
+    }
+    
+    @ViewBuilder
+    func dismissable(_ dismiss: (() -> Void)?) -> some View {
+        if UIDevice.current.userInterfaceIdiom != .pad, let dismiss = dismiss {
+            NavigationView {
+                self.toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") { dismiss() }
+                    }
+                }
+            }
+        } else {
+            self
+        }
+    }
+}
+
+extension View {
+    func compactableToolbar<Content>(@ViewBuilder content: () -> Content) -> some View where Content: View {
+        self.toolbar {
+            content().modifier(CompactableIntoContextMenu())
+        }
+    }
+}
+
+
+struct CompactableIntoContextMenu: ViewModifier {
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    
+    var compact: Bool { horizontalSizeClass == .compact }
+    
+    func body(content: Content) -> some View {
+        if compact {
+            Button {
+                
+            } label: {
+                Image(systemName: "ellipsis.circle")
+            }
+            .contextMenu {
+                content
+            }
+        } else {
+            content
+        }
     }
 }
